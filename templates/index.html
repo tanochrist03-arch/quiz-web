@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizMaster — Édition Grand Plateau</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <div class="spotlight"></div>
+  <div class="studio-glow"></div>
+
+  <main class="studio-wrapper">
+
+    <!-- Écran 1 : Accueil Studio -->
+    <section id="screen-home" class="tv-box">
+      <div class="tv-logo-circle">
+        <span class="logo-symbol">⚜️</span>
+        <h1 class="game-title">QUIZ<span>MASTER</span></h1>
+      </div>
+
+      <div class="host-welcome-card">
+        <div class="host-avatar">🎙️</div>
+        <div class="host-dialogue">
+          <strong>LE MAÎTRE DU JEU :</strong>
+          <p>« Bienvenue sur le plateau d'élite ! 10 questions de haut vol, 20 secondes par palier et 3 jokers décisifs pour franchir les moments critiques. Choisissez votre domaine et imposez votre maîtrise. »</p>
+        </div>
+      </div>
+
+      <div class="category-selection-zone">
+        <label for="category-select" class="selector-title">DISCIPLINE DU DÉFI :</label>
+        <select id="category-select" class="tv-dropdown">
+          <option value="toutes">Chargement...</option>
+        </select>
+      </div>
+
+      <div class="rules-ribbon">
+        <span>⏱️ 20s par Échelon</span>
+        <span>💡 3 Jokers Stratégiques</span>
+        <span>🏆 1 000 000 PTS au Sommet</span>
+      </div>
+
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <button id="btn-test-sound" class="btn-tv" style="background: rgba(30, 58, 138, 0.4); border-color: var(--tv-border-blue); font-size: 0.85rem; padding: 14px 20px;">🔊 TESTER LE SON</button>
+        <button id="btn-start" class="btn-tv">PRENDRE PLACE SUR LE FAUTEUIL</button>
+      </div>
+    </section>
+
+    <!-- Écran 2 : Plateau de Jeu Direct -->
+    <section id="screen-quiz" class="game-arena hidden">
+      <div class="arena-layout">
+        
+        <div class="stage-side">
+          
+          <div class="quiz-top-bar">
+            <span id="current-badge-cat" class="cat-pill">DISCIPLINE</span>
+            <div class="timer-badge" id="timer-badge">
+              <span>⏳</span>
+              <span id="timer-count">20</span>s
+            </div>
+          </div>
+
+          <div class="timer-track">
+            <div id="timer-fill" class="timer-fill"></div>
+          </div>
+
+          <!-- Barre des Jokers -->
+          <div class="lifelines-container">
+            <button id="btn-lifeline-5050" class="btn-lifeline" title="Retire 2 mauvaises réponses">
+              <span class="lifeline-ico">⚖️</span>
+              <span class="lifeline-lbl">50 / 50</span>
+            </button>
+            <button id="btn-lifeline-public" class="btn-lifeline" title="Consulter le vote du public">
+              <span class="lifeline-ico">📊</span>
+              <span class="lifeline-lbl">PUBLIC</span>
+            </button>
+            <button id="btn-lifeline-ami" class="btn-lifeline" title="Appeler un expert certifié">
+              <span class="lifeline-ico">📞</span>
+              <span class="lifeline-lbl">EXPERT</span>
+            </button>
+          </div>
+
+          <!-- Fenêtre Jokers -->
+          <div id="lifeline-modal" class="lifeline-modal hidden">
+            <div class="lifeline-modal-header">
+              <span id="lifeline-modal-title">ASSISTANCE DU PLATEAU</span>
+              <button id="btn-close-modal" class="btn-close-modal">✖</button>
+            </div>
+            <div id="lifeline-modal-content" class="lifeline-modal-content"></div>
+          </div>
+
+          <div class="question-frame">
+            <div class="question-pill">
+              <h2 id="question-title">Chargement...</h2>
+            </div>
+          </div>
+
+          <div id="options-container" class="options-grid-qvgdm"></div>
+
+          <div class="verdict-bar">
+            <button id="btn-next" class="btn-tv-gold hidden">C'EST MON DERNIER MOT ➔</button>
+          </div>
+        </div>
+
+        <!-- Pyramide à 10 paliers -->
+        <aside class="ladder-side">
+          <div class="ladder-title">PYRAMIDE DES GAINS</div>
+          <ul id="money-ladder" class="ladder-list">
+            <li class="ladder-tier level-10" data-level="10"><span class="step-num">10</span> <span class="step-val">1 000 000 PTS</span></li>
+            <li class="ladder-tier level-9" data-level="9"><span class="step-num">9</span> <span class="step-val">500 000 PTS</span></li>
+            <li class="ladder-tier level-8" data-level="8"><span class="step-num">8</span> <span class="step-val">250 000 PTS</span></li>
+            <li class="ladder-tier level-7" data-level="7"><span class="step-num">7</span> <span class="step-val">100 000 PTS</span></li>
+            <li class="ladder-tier level-6" data-level="6"><span class="step-num">6</span> <span class="step-val">48 000 PTS</span></li>
+            <li class="ladder-tier level-5" data-level="5"><span class="step-num">5</span> <span class="step-val">24 000 PTS</span></li>
+            <li class="ladder-tier level-4" data-level="4"><span class="step-num">4</span> <span class="step-val">12 000 PTS</span></li>
+            <li class="ladder-tier level-3" data-level="3"><span class="step-num">3</span> <span class="step-val">5 000 PTS</span></li>
+            <li class="ladder-tier level-2" data-level="2"><span class="step-num">2</span> <span class="step-val">2 000 PTS</span></li>
+            <li class="ladder-tier level-1" data-level="1"><span class="step-num">1</span> <span class="step-val">1 000 PTS</span></li>
+          </ul>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- Écran 3 : Verdict Final -->
+    <section id="screen-results" class="tv-box text-center hidden">
+      <div class="verdict-banner">
+        <h2>VERDICT DU MAÎTRE DU JEU</h2>
+        <div class="final-pot">
+          <span id="final-cash">0 PTS</span>
+        </div>
+        <p id="final-rank" class="rank-trophy">Calcul du rang...</p>
+      </div>
+
+      <div class="anecdotes-terminal">
+        <h3>DÉBRIEFING DÉTAILLÉ DU PARCOURS</h3>
+        <div id="anecdotes-container" class="anecdotes-feed"></div>
+      </div>
+
+      <button id="btn-restart" class="btn-tv">RELEVER UN NOUVEAU DÉFI</button>
+    </section>
+
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
