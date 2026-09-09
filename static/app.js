@@ -2,7 +2,7 @@ let questions = [];
 let currentIndex = 0;
 let userAnswers = {};
 
-const DUREE_CHRONO = 20;
+const DUREE_CHRONO = 40;
 let tempsRestant = DUREE_CHRONO;
 let timerInterval = null;
 
