@@ -389,7 +389,6 @@
   <div class="studio-glow"></div>
 
   <div class="studio-wrapper">
-    <!-- Écran Accueil -->
     <div id="screen-home" class="tv-box">
       <div class="tv-logo-masterpiece">
         <div class="logo-orbit-ring"></div>
@@ -420,18 +419,17 @@
         <div class="host-avatar">🎙️</div>
         <div class="host-dialogue">
           <strong>MAÎTRE DU JEU</strong>
-          <p>« Bienvenue sur le plateau d'élite ! 10 questions de haut vol, 40 secondes par palier. Choisissez votre domaine et imposez votre maîtrise. »</p>
+          <p>« Bienvenue sur le plateau d'élite ! 10 questions de haut vol 100% dédiées à votre domaine. Choisissez votre épreuve et atteignez le sommet. »</p>
         </div>
       </div>
 
       <div class="category-selection-zone">
         <label class="selector-title" for="category-select">DISCIPLINE DU DÉFI :</label>
         <select id="category-select" class="tv-dropdown">
-          <option value="toutes">Toutes les disciplines (Aléatoire complet)</option>
-          <option value="cyber">Cybersécurité & Réseaux</option>
-          <option value="culture">Culture Générale & Histoire</option>
-          <option value="tech">Technologies & Systèmes</option>
-          <option value="sport">Sport & Stratégie</option>
+          <option value="sport">Sport & Stratégie (10 Questions 100% Sport)</option>
+          <option value="cyber">Cybersécurité & Réseaux (10 Questions 100% Cyber)</option>
+          <option value="culture">Culture Générale & Histoire (10 Questions 100% Culture)</option>
+          <option value="tech">Technologies & Systèmes (10 Questions 100% Tech)</option>
         </select>
       </div>
 
@@ -480,7 +478,6 @@
           <div id="options-container" class="options-grid-qvgdm"></div>
         </div>
 
-        <!-- Totem Pyramide -->
         <aside class="ladder-side">
           <div class="ladder-header">
             <span class="ladder-radar"></span>
@@ -560,18 +557,60 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const MASTER_QUESTION_BANK = [
-        { cat: "cyber", q: "Quel protocole réseau chiffre les flux web via TLS ?", options: ["HTTPS", "HTTP", "FTP", "Telnet"], correct: "HTTPS", anecdote: "HTTPS protège l'intégrité et la confidentialité des échanges web." },
-        { cat: "cyber", q: "Quel port standard utilise le protocole SSH pour l'administration distante ?", options: ["22", "21", "80", "443"], correct: "22", anecdote: "Le port 22 permet des sessions shell interactives et chiffrées." },
-        { cat: "cyber", q: "Quelle attaque sature un serveur de requêtes pour le rendre indisponible ?", options: ["DDoS", "Phishing", "SQL Injection", "Man-in-the-Middle"], correct: "DDoS", anecdote: "Une attaque par déni de service distribué exploite un réseau de machines zombies." },
-        { cat: "cyber", q: "Combien de bits compte une adresse IPv4 standard ?", options: ["32 bits", "16 bits", "64 bits", "128 bits"], correct: "32 bits", anecdote: "32 bits correspondent à 4 octets séparés par des points." },
-        { cat: "culture", q: "Quelle est la capitale économique de la Côte d'Ivoire ?", options: ["Abidjan", "Yamoussoukro", "Bouaké", "San-Pédro"], correct: "Abidjan", anecdote: "Abidjan concentre le cœur économique et financier du pays." },
-        { cat: "culture", q: "Quelle est la capitale politique de la Côte d'Ivoire ?", options: ["Yamoussoukro", "Abidjan", "Korhogo", "Daloa"], correct: "Yamoussoukro", anecdote: "Yamoussoukro est la capitale politique officielle depuis 1983." },
-        { cat: "tech", q: "Quel système d'exploitation open source a été initié par Linus Torvalds ?", options: ["Linux", "Windows NT", "macOS", "FreeBSD"], correct: "Linux", anecdote: "Linux propulse aujourd'hui l'immense majorité des serveurs et du cloud mondial." },
-        { cat: "tech", q: "Quelle commande Git téléverse les commits vers un dépôt distant ?", options: ["git push", "git commit", "git clone", "git status"], correct: "git push", anecdote: "Git push envoie vos modifications locales vers GitHub ou GitLab." },
-        { cat: "sport", q: "Combien de joueurs d'une même équipe sont sur le terrain au football ?", options: ["11", "9", "10", "12"], correct: "11", anecdote: "Une équipe aligne 10 joueurs de champ et 1 gardien de but." },
-        { cat: "sport", q: "Combien de points rapporte un panier tiré au-delà de la ligne au basket-ball ?", options: ["3 points", "2 points", "1 point", "4 points"], correct: "3 points", anecdote: "La ligne à 3 points est traditionnellement fixée à 6,75 m en règles FIBA." }
-      ];
+      // 10 QUESTIONS PAR CATÉGORIE STRICTE (AUCUN MÉLANGE ENTRE DOMAINES)
+      const QUESTION_POOLS = {
+        sport: [
+          { q: "Combien de joueurs d'une même équipe sont sur le terrain au football ?", options: ["11", "9", "10", "12"], correct: "11", anecdote: "Une équipe aligne 10 joueurs de champ et 1 gardien de but." },
+          { q: "Combien de points rapporte un panier tiré au-delà de la ligne au basket-ball ?", options: ["3 points", "2 points", "1 point", "4 points"], correct: "3 points", anecdote: "La ligne à 3 points est traditionnellement fixée à 6,75 m en règles FIBA." },
+          { q: "Quelle nation a remporté la Coupe d'Afrique des Nations 2023 jouée en 2024 ?", options: ["Côte d'Ivoire", "Nigeria", "Sénégal", "Maroc"], correct: "Côte d'Ivoire", anecdote: "Les Éléphants de Côte d'Ivoire ont triomphé à domicile en finale contre le Nigeria (2-1)." },
+          { q: "Combien de temps dure un quart-temps standard dans un match NBA ?", options: ["12 minutes", "10 minutes", "15 minutes", "8 minutes"], correct: "12 minutes", anecdote: "Un match NBA compte 4 quart-temps de 12 min, contre 10 min en FIBA." },
+          { q: "Quelle est la distance officielle exacte d'un marathon d'athlétisme ?", options: ["42,195 km", "40 km", "45,5 km", "41,2 km"], correct: "42,195 km", anecdote: "La distance a été fixée aux Jeux Olympiques de Londres en 1908." },
+          { q: "Au rugby à XV, combien de points vaut un essai non transformé ?", options: ["5 points", "3 points", "2 points", "4 points"], correct: "5 points", anecdote: "L'essai rapporte 5 points et donne droit à une tentative de transformation à 2 points." },
+          { q: "Quel pays a remporté la Coupe du Monde de football masculin en 2022 ?", options: ["Argentine", "France", "Brésil", "Croatie"], correct: "Argentine", anecdote: "L'Argentine a remporté sa troisième étoile au Qatar à l'issue des tirs au but." },
+          { q: "Combien de joueurs composent une équipe sur le terrain en volley-ball ?", options: ["6", "5", "7", "8"], correct: "6", anecdote: "Chaque équipe compte 6 joueurs disposés en ligne avant et arrière." },
+          { q: "À quel score s'achève un jeu décisif (tie-break) standard au tennis ?", options: ["7 points gagnants (écart de 2)", "10 points", "5 points", "6 points"], correct: "7 points gagnants (écart de 2)", anecdote: "Le premier à 7 points avec 2 points d'écart remporte le set." },
+          { q: "Combien de pas au maximum un basketteur peut-il faire sans dribbler avec le ballon ?", options: ["2 pas", "3 pas", "1 pas", "4 pas"], correct: "2 pas", anecdote: "Au-delà de deux appuis consécutifs sans dribble, le joueur commet un marcher." }
+        ],
+
+        cyber: [
+          { q: "Quel protocole réseau chiffre les flux web via TLS ?", options: ["HTTPS", "HTTP", "FTP", "Telnet"], correct: "HTTPS", anecdote: "HTTPS protège l'intégrité et la confidentialité des échanges web." },
+          { q: "Quel port standard utilise le protocole SSH pour l'administration distante ?", options: ["22", "21", "80", "443"], correct: "22", anecdote: "Le port 22 permet des sessions shell interactives et chiffrées." },
+          { q: "Quelle attaque sature un serveur de requêtes pour le rendre indisponible ?", options: ["DDoS", "Phishing", "SQL Injection", "Man-in-the-Middle"], correct: "DDoS", anecdote: "Une attaque par déni de service distribué exploite un réseau de machines zombies." },
+          { q: "Combien de bits compte une adresse IPv4 standard ?", options: ["32 bits", "16 bits", "64 bits", "128 bits"], correct: "32 bits", anecdote: "32 bits correspondent à 4 octets séparés par des points." },
+          { q: "Quel type d'attaque consiste à tromper l'utilisateur par un faux courriel pour voler ses identifiants ?", options: ["Phishing", "Brute Force", "Ransomware", "Buffer Overflow"], correct: "Phishing", anecdote: "L'hameçonnage (phishing) est la méthode d'ingénierie sociale la plus répandue." },
+          { q: "Quel port standard non sécurisé est utilisé par le serveur Web HTTP ?", options: ["80", "443", "8080", "25"], correct: "80", anecdote: "Le port 80 transporte les données web en clair sans chiffrement." },
+          { q: "Quelle technologie d'authentification exige deux preuves différentes pour valider un accès ?", options: ["MFA / 2FA", "SSO", "Hash MD5", "VPN"], correct: "MFA / 2FA", anecdote: "L'authentification multifactorielle bloque l'immense majorité des compromissions de compte." },
+          { q: "Quel est le rôle principal d'un pare-feu (Firewall) sur un réseau ?", options: ["Filtrer le trafic entrant et sortant", "Accélérer la connexion Internet", "Sauvegarder les bases de données", "Attaquer les intrus"], correct: "Filtrer le trafic entrant et sortant", anecdote: "Le pare-feu bloque les paquets illégitimes selon des règles de sécurité prédéfinies." },
+          { q: "Quel malware chiffre les fichiers d'une victime et exige une rançon pour les débloquer ?", options: ["Ransomware", "Spyware", "Adware", "Rootkit"], correct: "Ransomware", anecdote: "Les rançongiciels comptent parmi les cybermenaces les plus dévastatrices pour les entreprises." },
+          { q: "Combien de bits compte une adresse IPv6 ?", options: ["128 bits", "64 bits", "32 bits", "256 bits"], correct: "128 bits", anecdote: "IPv6 offre $2^{128}$ adresses uniques pour surmonter l'épuisement d'IPv4." }
+        ],
+
+        culture: [
+          { q: "Quelle est la capitale économique de la Côte d'Ivoire ?", options: ["Abidjan", "Yamoussoukro", "Bouaké", "San-Pédro"], correct: "Abidjan", anecdote: "Abidjan concentre le cœur économique et financier du pays." },
+          { q: "Quelle est la capitale politique de la Côte d'Ivoire ?", options: ["Yamoussoukro", "Abidjan", "Korhogo", "Daloa"], correct: "Yamoussoukro", anecdote: "Yamoussoukro est la capitale politique officielle depuis 1983." },
+          { q: "Quel célèbre fleuve africain est le plus long du monde selon la géographie traditionnelle ?", options: ["Le Nil", "Le Congo", "Le Niger", "Le Zambèze"], correct: "Le Nil", anecdote: "Le Nil s'étend sur plus de 6 650 kilomètres dans l'Est africain." },
+          { q: "En quelle année l'homme a-t-il marché sur la Lune pour la première fois ?", options: ["1969", "1965", "1972", "1961"], correct: "1969", anecdote: "Neil Armstrong a posé le pied sur la Lune le 21 juillet 1969 lors de la mission Apollo 11." },
+          { q: "Quel peintre mondialement célèbre a réalisé la fresque de La Cène et La Joconde ?", options: ["Léonard de Vinci", "Michel-Ange", "Pablo Picasso", "Vincent van Gogh"], correct: "Léonard de Vinci", anecdote: "Génie de la Renaissance italienne, Léonard de Vinci était aussi inventeur et anatomiste." },
+          { q: "Quel pays abrite les célèbres pyramides de Gizeh ?", options: ["Égypte", "Soudan", "Jordanie", "Grèce"], correct: "Égypte", anecdote: "La Grande Pyramide de Khéops est la seule des 7 merveilles antiques encore debout." },
+          { q: "Quelle est la monnaie commune officielle utilisée en Côte d'Ivoire et dans la zone UEMOA ?", options: ["Franc CFA", "Naira", "Cedi", "Dollar"], correct: "Franc CFA", anecdote: "Le Franc CFA de l'UEMOA est garanti par le Trésor et émis par la BCEAO." },
+          { q: "Combien de continents compte traditionnellement la planète Terre ?", options: ["5 ou 6", "4", "8", "9"], correct: "5 ou 6", anecdote: "Le modèle à 5 continents habités ou 6/7 selon les critères géographiques est le standard mondial." },
+          { q: "Dans quelle ville française se trouve le célèbre monument de la Tour Eiffel ?", options: ["Paris", "Lyon", "Marseille", "Bordeaux"], correct: "Paris", anecdote: "Érigée par Gustave Eiffel pour l'Exposition universelle de 1889." },
+          { q: "Quel océan est le plus vaste de la planète Terre ?", options: ["Océan Pacifique", "Océan Atlantique", "Océan Indien", "Océan Arctique"], correct: "Océan Pacifique", anecdote: "L'océan Pacifique couvre plus d'un tiers de la surface terrestre globale." }
+        ],
+
+        tech: [
+          { q: "Quel système d'exploitation open source a été initié par Linus Torvalds ?", options: ["Linux", "Windows NT", "macOS", "FreeBSD"], correct: "Linux", anecdote: "Linux propulse aujourd'hui l'immense majorité des serveurs et du cloud mondial." },
+          { q: "Quelle commande Git téléverse les commits vers un dépôt distant ?", options: ["git push", "git commit", "git clone", "git status"], correct: "git push", anecdote: "Git push envoie vos modifications locales vers GitHub ou GitLab." },
+          { q: "Quel langage informatique est le standard universel pour structurer une page web ?", options: ["HTML", "Python", "SQL", "C++"], correct: "HTML", anecdote: "HTML (HyperText Markup Language) définit l'architecture sémantique des sites internet." },
+          { q: "Quel composant physique d'un ordinateur est considéré comme son cerveau principal ?", options: ["Le processeur (CPU)", "Le disque dur (SSD)", "La mémoire RAM", "L'alimentation"], correct: "Le processeur (CPU)", anecdote: "L'unité centrale de traitement exécute l'ensemble des instructions des programmes." },
+          { q: "Que signifie le sigle 'RAM' dans un équipement informatique ?", options: ["Random Access Memory", "Read All Memory", "Run Action Module", "Real Audio Matrix"], correct: "Random Access Memory", anecdote: "La RAM sert de mémoire volatile ultra-rapide pour les programmes en cours d'exécution." },
+          { q: "Quel langage de programmation a été créé par Guido van Rossum en 1991 ?", options: ["Python", "Java", "PHP", "Ruby"], correct: "Python", anecdote: "Python est réputé pour sa syntaxe claire et domine aujourd'hui la science des données et l'IA." },
+          { q: "Quelle technologie de stockage sur puce flash remplace les anciens disques durs magnétiques HDD ?", options: ["SSD", "CD-ROM", "Bande magnétique", "Disquette"], correct: "SSD", anecdote: "Les SSD offrent des vitesses de lecture et d'écriture infiniment supérieures aux disques à plateaux." },
+          { q: "Quel protocole réseau attribue automatiquement des adresses IP aux machines clientes ?", options: ["DHCP", "DNS", "SNMP", "NTP"], correct: "DHCP", anecdote: "Le protocole DHCP simplifie l'administration réseau en évitant les configurations manuelles." },
+          { q: "Que signifie le sigle 'IA' dans le monde des technologies modernes ?", options: ["Intelligence Artificielle", "Interface Automatique", "Information Analytique", "Internet Avancé"], correct: "Intelligence Artificielle", anecdote: "L'IA regroupe l'apprentissage automatique, les réseaux neuronaux et les modèles génératifs." },
+          { q: "Quel protocole traduit un nom de domaine (ex: google.com) en adresse IP numérique ?", options: ["DNS", "DHCP", "FTP", "SMTP"], correct: "DNS", anecdote: "Le système des noms de domaine (DNS) agit comme l'annuaire d'Internet." }
+        ]
+      };
 
       const PRIZES = [
         "1 000 PTS", "2 000 PTS", "5 000 PTS", "12 000 PTS", "24 000 PTS",
@@ -579,46 +618,16 @@
       ];
 
       const TIER_VERDICTS = [
-        {
-          title: "ÉCHEC AU DÉPART",
-          quote: "« Le trac du direct a frappé dès l'entame. Respirez un grand coup et reprenez place ! »"
-        },
-        {
-          title: "PREMIER PAS EN ARÈNE",
-          quote: "« La glace est brisée, mais la tension du studio vous a rattrapé trop tôt. »"
-        },
-        {
-          title: "AMORCE TIMIDE",
-          quote: "« Le moteur tournait, mais il manquait ce brin d'audace pour franchir le cap. »"
-        },
-        {
-          title: "COMBAT DU MILIEU",
-          quote: "« Une belle ténacité face au chronomètre, le rythme commence à s'installer ! »"
-        },
-        {
-          title: "AUX PORTES DU FILET",
-          quote: "« Rageant ! Vous échouez d'un souffle juste avant le premier palier de sécurité. »"
-        },
-        {
-          title: "🛡️ PREMIER BASTION SÉCURISÉ",
-          quote: "« Le palier de sécurité est validé ! Le public salue une maîtrise solide du plateau. »"
-        },
-        {
-          title: "STRATÈGE DU HAUT NIVEAU",
-          quote: "« Vous entrez dans la cour des grands. Le sang-froid commence à faire la différence ! »"
-        },
-        {
-          title: "ASCENSION VERTIGINEUSE",
-          quote: "« Le million est en vue ! Une clairvoyance rare sur les questions les plus piégeuses. »"
-        },
-        {
-          title: "L'AVANT-POSTE DES ROIS",
-          quote: "« À un échelon de la légende ! Le plateau retient son souffle devant un tel exploit. »"
-        },
-        {
-          title: "👑 GRAND MAÎTRE DU SOMMET",
-          quote: "« Prestation magistrale ! Le plateau s’incline devant une telle précision : tu as fait de ce fauteuil ton trône. »"
-        }
+        { title: "ÉCHEC AU DÉPART", quote: "« Le trac du direct a frappé dès l'entame. Respirez un grand coup et reprenez place ! »" },
+        { title: "PREMIER PAS EN ARÈNE", quote: "« La glace est brisée, mais la tension du studio vous a rattrapé trop tôt. »" },
+        { title: "AMORCE TIMIDE", quote: "« Le moteur tournait, mais il manquait ce brin d'audace pour franchir le cap. »" },
+        { title: "COMBAT DU MILIEU", quote: "« Une belle ténacité face au chronomètre, le rythme commence à s'installer ! »" },
+        { title: "AUX PORTES DU FILET", quote: "« Rageant ! Vous échouez d'un souffle juste avant le premier palier de sécurité. »" },
+        { title: "🛡️ PREMIER BASTION SÉCURISÉ", quote: "« Le palier de sécurité est validé ! Le public salue une maîtrise solide du plateau. »" },
+        { title: "STRATÈGE DU HAUT NIVEAU", quote: "« Vous entrez dans la cour des grands. Le sang-froid commence à faire la différence ! »" },
+        { title: "ASCENSION VERTIGINEUSE", quote: "« Le million est en vue ! Une clairvoyance rare sur les questions les plus piégeuses. »" },
+        { title: "L'AVANT-POSTE DES ROIS", quote: "« À un échelon de la légende ! Le plateau retient son souffle devant un tel exploit. »" },
+        { title: "👑 GRAND MAÎTRE DU SOMMET", quote: "« Prestation magistrale ! Le plateau s’incline devant une telle précision : tu as fait de ce fauteuil ton trône. »" }
       ];
 
       const TOTAL_TIME = 40;
@@ -665,18 +674,15 @@
         return copy;
       }
 
+      // SÉLECTION PURE : 100% du thème choisi, aucun croisement
       function prepareQuestions() {
-        const cat = categorySelect.value;
-        let pool = MASTER_QUESTION_BANK;
-        if (cat !== "toutes") {
-          pool = MASTER_QUESTION_BANK.filter(q => q.cat === cat);
-          if (pool.length < 10) {
-            const extra = MASTER_QUESTION_BANK.filter(q => q.cat !== cat);
-            pool = [...pool, ...shuffle(extra)];
-          }
-        }
-        const selected = shuffle(pool).slice(0, 10);
-        return selected.map(item => {
+        const chosenCat = categorySelect.value;
+        const selectedPool = QUESTION_POOLS[chosenCat] || QUESTION_POOLS["sport"];
+        
+        // On mélange l'ordre des 10 questions du thème
+        const orderedQuestions = shuffle(selectedPool);
+
+        return orderedQuestions.map(item => {
           const shuffledOpts = shuffle(item.options);
           return {
             q: item.q,
@@ -693,7 +699,7 @@
         currentIndex = 0;
         sessionHistory = [];
 
-        const label = categorySelect.options[categorySelect.selectedIndex]?.text.split("(")[0].trim() || "GÉNÉRAL";
+        const label = categorySelect.options[categorySelect.selectedIndex]?.text.split("(")[0].trim() || "DISCIPLINE";
         if (displayCat) displayCat.textContent = label.toUpperCase();
 
         [btnJoker5050, btnJokerPublic, btnJokerExpert].forEach(b => {
